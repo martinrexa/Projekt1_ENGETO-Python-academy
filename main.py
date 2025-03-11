@@ -44,65 +44,55 @@ else:
     print("Unregistered user. Terminating the program..")
     exit()
 
-select_text = int(input("Enter a number btw. 1 and 3 to select:"))
-print("-" * 30)
-if select_text == 1 or select_text == 2 or select_text == 3:
+try:
+    select_text = int(input("Enter a number btw. 1 and 3 to select:"))
+    if select_text == 1 or select_text == 2 or select_text == 3:
     # nachystané proměnné pro analýzu vybraného textu
-    selected_text = TEXTS[select_text - 1]
-    selected_text_splitted = list(selected_text.split())
-    selected_text_stripped = list()
-    for word in selected_text_splitted:
-        selected_text_stripped.append(word.strip("!#$%&\'()*+,-./:;=>?@[\\]^_`{|}~"))
-    selected_text_title = 0
-    selected_text_upper = 0
-    selected_text_lower = 0
-    selected_text_decimal= 0
-    selected_text_sum_of_numbers = 0
-    selected_text_lengths = list()
+        selected_text = TEXTS[select_text - 1]
+        selected_text_splitted = list(selected_text.split())
+        selected_text_stripped = list()
+        for word in selected_text_splitted:
+            selected_text_stripped.append(word.strip("!#$%&\'()*+,-./:;=>?@[\\]^_`{|}~"))
+        selected_text_title = 0
+        selected_text_upper = 0
+        selected_text_lower = 0
+        selected_text_decimal= 0
+        selected_text_sum_of_numbers = 0
+        selected_text_lengths = list()
+    
+        print("-" * 30)
+        print("There are", len(selected_text_stripped), "words in the selected text.")
 
-    #počet slov = délka (počet prvků) listu
-    print("There are", len(selected_text_stripped), "words in the selected text.")
-    # počet slov začínajících velkým písmenem
-    for word in selected_text_stripped:
-        if word.istitle():
-            selected_text_title = selected_text_title + 1
-        else: continue
-    print("There are", selected_text_title, "titlecase words.")
-    # počet slov psaných velkými písmeny
-    for word in selected_text_stripped:
-        if word.isupper() and word.isalpha():
-            selected_text_upper = selected_text_upper + 1
-        else: continue
-    print("There are", selected_text_upper, "uppercase words.")
-    # počet slov psaných malými písmeny
-    for word in selected_text_stripped:
-        if word.islower():
-            selected_text_lower = selected_text_lower + 1
-        else: continue
-    print("There are", selected_text_lower, "lowercase words.")
-    # počet čísel (ne cifer)
-    for word in selected_text_stripped:
-        if word.isdecimal():
-            selected_text_decimal = selected_text_decimal + 1
-        else: continue
-    print("There are", selected_text_decimal, "numeric strings.")
-    # suma všech čísel (ne cifer)
-    for word in selected_text_stripped:
-        if word.isdecimal():
-            selected_text_sum_of_numbers = selected_text_sum_of_numbers + int(word)
-        else: continue
-    print("The sum of all the numbers", selected_text_sum_of_numbers)
-    print("-" * 30)
-    print("LEN| OCCURENCES |NR.")
-    print("-" * 30)
-    # sloupcový graf četnosti délek slov v textu
-    for word in selected_text_stripped:
-        selected_text_lengths.append(len(word))
-    for cislo in range(1, 20):
-        if selected_text_lengths.count(cislo) != 0:
-            print(cislo, "| ", "*" * selected_text_lengths.count(cislo), " |", selected_text_lengths.count(cislo))
-        else:
-            continue
-else:
-    print("You didn´t write valid input.")
-    exit()
+        for word in selected_text_stripped:
+            if word.istitle():
+                selected_text_title = selected_text_title + 1
+            if word.isupper() and word.isalpha():
+                selected_text_upper = selected_text_upper + 1
+            if word.islower():
+                selected_text_lower = selected_text_lower + 1
+            if word.isdecimal():
+                selected_text_decimal = selected_text_decimal + 1
+            if word.isdecimal():
+                selected_text_sum_of_numbers = selected_text_sum_of_numbers + int(word)
+        print("There are", selected_text_title, "titlecase words.")
+        print("There are", selected_text_upper, "uppercase words.")
+        print("There are", selected_text_lower, "lowercase words.")
+        print("There are", selected_text_decimal, "numeric strings.")
+        print("The sum of all the numbers", selected_text_sum_of_numbers)
+
+        print("-" * 30)
+        print("LEN| OCCURENCES |NR.")
+        print("-" * 30)
+        # sloupcový graf četnosti délek slov v textu
+        for word in selected_text_stripped:
+            selected_text_lengths.append(len(word))
+        for cislo in range(1, 20):
+            cetnost = selected_text_lengths.count(cislo)
+            if cetnost != 0:
+                print("{:2}| {:<20}|{}".format(cislo, "*" * cetnost, cetnost))
+    else:
+        print("You didn´t write valid input.")
+        exit()
+except ValueError:
+    print("You didn't write a valid input.")
+    exit() 
